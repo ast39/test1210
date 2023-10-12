@@ -1,0 +1,787 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test Api",
+        "description": "Test api",
+        "contact": {
+            "name": "ASt",
+            "email": "alexandr.statut@instafxgroup.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://test1210/api/v1",
+            "description": "Dev API server"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth in API",
+                "description": "Auth in API",
+                "operationId": "auth.login",
+                "requestBody": {
+                    "description": "Category data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string",
+                                        "example": "user_a@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "User password",
+                                        "type": "string",
+                                        "example": "qwerty12"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/user": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth user info",
+                "description": "Auth user info",
+                "operationId": "auth.user",
+                "responses": {
+                    "200": {
+                        "description": "User data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/components/schemas/user"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "description": "Logout",
+                "operationId": "auth.logout",
+                "responses": {
+                    "200": {
+                        "description": "Created category ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh API token",
+                "description": "Refresh API token",
+                "operationId": "auth.refresh",
+                "responses": {
+                    "200": {
+                        "description": "Created category ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/payment": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Payment list",
+                "description": "Payment list",
+                "operationId": "payment.index",
+                "parameters": [
+                    {
+                        "name": "owner",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "RUB",
+                                "USD",
+                                "EUR"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ticket",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of payments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/payment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Add new payment",
+                "description": "Add new payment",
+                "operationId": "payment.store",
+                "requestBody": {
+                    "description": "Payment data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "owner_id",
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "owner_id": {
+                                        "description": "Payer ID",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "amount": {
+                                        "description": "Amount",
+                                        "type": "numeric",
+                                        "format": "double",
+                                        "example": "50.50"
+                                    },
+                                    "currency": {
+                                        "description": "Cuttency",
+                                        "type": "string",
+                                        "example": "RUB",
+                                        "nullable": "true"
+                                    },
+                                    "ticket": {
+                                        "description": "Ticket",
+                                        "type": "integer",
+                                        "example": "123456",
+                                        "nullable": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created payment ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/payment/{id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Payment info",
+                "description": "Payment info",
+                "operationId": "payment.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Payment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment unfo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/components/schemas/payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Update payment",
+                "description": "Update payment",
+                "operationId": "payment.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Payment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Payment data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "owner_id": {
+                                        "description": "Payer ID",
+                                        "type": "integer",
+                                        "example": "1",
+                                        "nullable": "true"
+                                    },
+                                    "amount": {
+                                        "description": "Amount",
+                                        "type": "numeric",
+                                        "format": "double",
+                                        "example": "50.50",
+                                        "nullable": "true"
+                                    },
+                                    "currency": {
+                                        "description": "Cuttency",
+                                        "type": "string",
+                                        "example": "RUB",
+                                        "nullable": "true"
+                                    },
+                                    "ticket": {
+                                        "description": "Ticket",
+                                        "type": "integer",
+                                        "example": "123456",
+                                        "nullable": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Delete payment",
+                "description": "Delete payment",
+                "operationId": "payment.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Payment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Destroy result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There are some active events in this stream OR Error: Bad request. When required parameters were not supplied.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/error_response"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "token": {
+                "title": "Token data",
+                "properties": {
+                    "access_token": {
+                        "type": "string",
+                        "example": "abcdef1234"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "Bearer"
+                    },
+                    "expires_in": {
+                        "type": "integer",
+                        "example": "3600"
+                    }
+                },
+                "type": "object"
+            },
+            "error_response": {
+                "title": "Error response",
+                "properties": {
+                    "error": {
+                        "properties": {
+                            "app": {
+                                "type": "string",
+                                "example": "Some Api"
+                            },
+                            "code": {
+                                "type": "integer",
+                                "example": "400"
+                            },
+                            "msg": {
+                                "type": "string",
+                                "example": "Bad request"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "user": {
+                "title": "User data",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "test@gmail.com"
+                    },
+                    "verified": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "null",
+                        "nullable": "true"
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-04T16:33:11.000000Z"
+                    },
+                    "updated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-04T16:33:11.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "payment": {
+                "title": "Payment data",
+                "properties": {
+                    "payment_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "curency": {
+                        "type": "string",
+                        "example": "USD"
+                    },
+                    "amount": {
+                        "type": "numeric",
+                        "format": "float",
+                        "example": "50.50"
+                    },
+                    "amount_in_rub": {
+                        "type": "numeric",
+                        "format": "float",
+                        "example": "5050"
+                    },
+                    "ticket": {
+                        "type": "integer",
+                        "example": "123456",
+                        "nullable": "true"
+                    },
+                    "payer": {
+                        "$ref": "#/components/schemas/user"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "401": {
+                "description": "Error: Unauthorized.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Error: Bad request. When required parameters were not supplied.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "$ref": "#/components/schemas/error_response"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Your token must be provided by Admin",
+                "name": "Api Client",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth in API"
+        },
+        {
+            "name": "Payments",
+            "description": "Payments"
+        }
+    ],
+    "externalDocs": {
+        "description": "Docs",
+        "url": "https://test1210/api/documentation"
+    }
+}
