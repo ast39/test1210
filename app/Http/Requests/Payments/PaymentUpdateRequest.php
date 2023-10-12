@@ -25,7 +25,6 @@ class PaymentUpdateRequest extends FormRequest {
     {
         return [
 
-            'owner_id'   => 'nullable|int',
             'amount'     => [
                 'nullable',
                 "regex:/^\d+(\.\d{1,2})?$/",

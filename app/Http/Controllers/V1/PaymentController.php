@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Enums\CurrencyEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\PaymentFilter;
 use App\Http\Libs\AppError;
-use App\Http\Libs\CB\Rate;
 use App\Http\Libs\Helper;
 use App\Http\Requests\Payments\PaymentFilterRequest;
 use App\Http\Requests\Payments\PaymentStoreRequest;
@@ -96,6 +94,7 @@ class PaymentController extends Controller {
     public function store(PaymentStoreRequest $request): JsonResponse
     {
         $data = $request->validated();
+        $data['owner_id']    = auth()->id();
         $data['currency_id'] = Helper::getCurrencyId($data['currency'] ?? null);
 
         if (is_null($data['currency_id'])) {

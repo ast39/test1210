@@ -309,11 +309,6 @@
                                     "amount"
                                 ],
                                 "properties": {
-                                    "owner_id": {
-                                        "description": "Payer ID",
-                                        "type": "integer",
-                                        "example": "1"
-                                    },
                                     "amount": {
                                         "description": "Amount",
                                         "type": "numeric",
@@ -474,12 +469,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "owner_id": {
-                                        "description": "Payer ID",
-                                        "type": "integer",
-                                        "example": "1",
-                                        "nullable": "true"
-                                    },
                                     "amount": {
                                         "description": "Amount",
                                         "type": "numeric",

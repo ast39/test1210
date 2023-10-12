@@ -79,7 +79,6 @@ class Payment {
      *         description="Payment data",
      *         @OA\JsonContent(
      *             required={"owner_id", "amount"},
-     *             @OA\Property(property="owner_id", type="integer", example="1", description="Payer ID"),
      *             @OA\Property(property="amount", type="numeric", format="double", example="50.50", description="Amount"),
      *             @OA\Property(property="currency", type="string", nullable="true", example="RUB", description="Cuttency"),
      *             @OA\Property(property="ticket", type="integer", nullable="true", example="123456", description="Ticket"),
@@ -116,7 +115,6 @@ class Payment {
      *         required=true,
      *         description="Payment data",
      *         @OA\JsonContent(
-     *             @OA\Property(property="owner_id", type="integer", nullable="true", example="1", description="Payer ID"),
      *             @OA\Property(property="amount", type="numeric", nullable="true", format="double", example="50.50", description="Amount"),
      *             @OA\Property(property="currency", type="string", nullable="true", example="RUB", description="Cuttency"),
      *             @OA\Property(property="ticket", type="integer", nullable="true", example="123456", description="Ticket"),

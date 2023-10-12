@@ -25,7 +25,6 @@ class PaymentStoreRequest extends FormRequest {
     {
         return [
 
-            'owner_id'   => 'required|int',
             'amount'     => [
                 'required',
                 "regex:/^\d+(\.\d{1,2})?$/",
